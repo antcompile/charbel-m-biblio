@@ -1,13 +1,14 @@
 ---
 import { defaultLang } from '../i18n/languages';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
-<meta http-equiv="refresh" content={`0;url=/${defaultLang}/`} />
+<meta http-equiv="refresh" content={`0;url=${base}/${defaultLang}/`} />
 
-<script is:inline define:vars={{ defaultLang }}>
+<script is:inline define:vars={{ defaultLang, base }}>
   const saved = localStorage.getItem('charbel-lang');
   const lang = saved || navigator.language?.split('-')[0];
   const supported = ['fr', 'en', 'ar'];
   const target = supported.includes(lang) ? lang : defaultLang;
-  window.location.replace('/' + target + '/');
+  window.location.replace(base + '/' + target + '/');
 </script>
