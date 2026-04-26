@@ -16,33 +16,33 @@ const currentPath = Astro.url.pathname;
 
 const cvSections = [
   { heading: t('biography.education'), items: [
-    { year: '1973-', text: lang === 'fr' ? 'Arts plastiques, Histoire de l\'art, Beaux-Arts — France' : lang === 'ar' ? 'الفنون التشكيلية، تاريخ الفن، الفنون الجميلة — فرنسا' : 'Visual Arts, Art History, Fine Arts — France' },
+    { year: '1973-', text: lang === 'fr' ? 'Arts plastiques, Histoire de l\'art, Beaux-Arts - France' : lang === 'ar' ? 'الفنون التشكيلية، تاريخ الفن، الفنون الجميلة - فرنسا' : 'Visual Arts, Art History, Fine Arts - France' },
   ]},
   { heading: t('biography.awards'), items: [
-    { year: '2021', text: lang === 'fr' ? 'Grand Prix Litteraire de l\'Oeuvre d\'Orient — Paris' : lang === 'ar' ? 'الجائزة الأدبية الكبرى لعمل الشرق — باريس' : 'Grand Literary Prize of the Oeuvre d\'Orient — Paris' },
-    { year: '2014', text: lang === 'fr' ? 'Selection UNESCO — Journee mondiale de la langue arabe' : lang === 'ar' ? 'اختيار اليونسكو — يوم اللغة العربية العالمي' : 'UNESCO Selection — World Arabic Language Day' },
+    { year: '2021', text: lang === 'fr' ? 'Grand Prix Litteraire de l\'Oeuvre d\'Orient - Paris' : lang === 'ar' ? 'الجائزة الأدبية الكبرى لعمل الشرق - باريس' : 'Grand Literary Prize of the Oeuvre d\'Orient - Paris' },
+    { year: '2014', text: lang === 'fr' ? 'Selection UNESCO - Journee mondiale de la langue arabe' : lang === 'ar' ? 'اختيار اليونسكو - يوم اللغة العربية العالمي' : 'UNESCO Selection - World Arabic Language Day' },
   ]},
   { heading: t('biography.solo_exhibitions'), items: [
-    { year: '2024', text: lang === 'fr' ? 'Autour du Bleu — Credit Municipal de Bordeaux' : lang === 'ar' ? 'حول الأزرق — كريدي مونيسيبال دو بوردو' : 'Around Blue — Credit Municipal de Bordeaux' },
-    { year: '2014', text: lang === 'fr' ? 'Abjadiya — Office du Tourisme du Liban, Paris' : lang === 'ar' ? 'أبجدية — مكتب السياحة اللبناني، باريس' : 'Abjadiya — Lebanese Tourism Office, Paris' },
+    { year: '2024', text: lang === 'fr' ? 'Autour du Bleu - Credit Municipal de Bordeaux' : lang === 'ar' ? 'حول الأزرق - كريدي مونيسيبال دو بوردو' : 'Around Blue - Credit Municipal de Bordeaux' },
+    { year: '2014', text: lang === 'fr' ? 'Abjadiya - Office du Tourisme du Liban, Paris' : lang === 'ar' ? 'أبجدية - مكتب السياحة اللبناني، باريس' : 'Abjadiya - Lebanese Tourism Office, Paris' },
   ]},
   { heading: t('biography.group_exhibitions'), items: [
-    { year: '2022', text: lang === 'fr' ? 'Ode a l\'amour — Centre Sevres, Paris / Chateau de Gizeux / Maison Saint Louis, Bordeaux' : lang === 'ar' ? 'نشيد الحب — مركز سيفر، باريس / قصر جيزو / ميزون سان لويس، بوردو' : 'Ode to Love — Centre Sevres, Paris / Chateau de Gizeux / Maison Saint Louis, Bordeaux' },
+    { year: '2022', text: lang === 'fr' ? 'Ode a l\'amour - Centre Sevres, Paris / Chateau de Gizeux / Maison Saint Louis, Bordeaux' : lang === 'ar' ? 'نشيد الحب - مركز سيفر، باريس / قصر جيزو / ميزون سان لويس، بوردو' : 'Ode to Love - Centre Sevres, Paris / Chateau de Gizeux / Maison Saint Louis, Bordeaux' },
   ]},
   { heading: t('biography.commissions'), items: [
-    { year: '2021', text: lang === 'fr' ? 'Mosaique baptistere (6 m2) — Notre-Dame des Anges, Bordeaux' : lang === 'ar' ? 'فسيفساء المعمودية (٦ م²) — نوتردام دي آنج، بوردو' : 'Baptistery mosaic (6 m2) — Notre-Dame des Anges, Bordeaux' },
-    { year: '', text: lang === 'fr' ? 'Vitraux — Notre Dame de l\'Ascension, Ghazir, Liban' : lang === 'ar' ? 'زجاج معشق — سيدة الصعود، غازير، لبنان' : 'Stained glass — Notre Dame de l\'Ascension, Ghazir, Lebanon' },
-    { year: '2011', text: lang === 'fr' ? 'Memorial Jesuite — Ghazir, Liban' : lang === 'ar' ? 'نصب يسوعي تذكاري — غازير، لبنان' : 'Jesuit Memorial — Ghazir, Lebanon' },
-    { year: '', text: lang === 'fr' ? 'Place et statue Ernest Renan — Ghazir, Liban' : lang === 'ar' ? 'ساحة وتمثال إرنست رينان — غازير، لبنان' : 'Ernest Renan Square and Statue — Ghazir, Lebanon' },
+    { year: '2021', text: lang === 'fr' ? 'Mosaique baptistere (6 m2) - Notre-Dame des Anges, Bordeaux' : lang === 'ar' ? 'فسيفساء المعمودية (٦ م²) - نوتردام دي آنج، بوردو' : 'Baptistery mosaic (6 m2) - Notre-Dame des Anges, Bordeaux' },
+    { year: '', text: lang === 'fr' ? 'Vitraux - Notre Dame de l\'Ascension, Ghazir, Liban' : lang === 'ar' ? 'زجاج معشق - سيدة الصعود، غازير، لبنان' : 'Stained glass - Notre Dame de l\'Ascension, Ghazir, Lebanon' },
+    { year: '2011', text: lang === 'fr' ? 'Memorial Jesuite - Ghazir, Liban' : lang === 'ar' ? 'نصب يسوعي تذكاري - غازير، لبنان' : 'Jesuit Memorial - Ghazir, Lebanon' },
+    { year: '', text: lang === 'fr' ? 'Place et statue Ernest Renan - Ghazir, Liban' : lang === 'ar' ? 'ساحة وتمثال إرنست رينان - غازير، لبنان' : 'Ernest Renan Square and Statue - Ghazir, Lebanon' },
   ]},
   { heading: t('biography.publications_heading'), items: [
-    { year: '2019', text: lang === 'fr' ? 'La Mission Jesuite de Ghazir 1843-1965 — Presses de l\'USJ' : lang === 'ar' ? 'البعثة اليسوعية في غازير ١٨٤٣-١٩٦٥ — مطبعة جامعة القديس يوسف' : 'The Jesuit Mission of Ghazir 1843-1965 — USJ Press' },
-    { year: '2018', text: lang === 'fr' ? 'Henriette, la soeur inspiratrice — Presses universitaires de Rennes' : lang === 'ar' ? 'هنرييت، الأخت الملهمة — مطبعة جامعة رين' : 'Henriette, the Inspiring Sister — Presses universitaires de Rennes' },
+    { year: '2019', text: lang === 'fr' ? 'La Mission Jesuite de Ghazir 1843-1965 - Presses de l\'USJ' : lang === 'ar' ? 'البعثة اليسوعية في غازير ١٨٤٣-١٩٦٥ - مطبعة جامعة القديس يوسف' : 'The Jesuit Mission of Ghazir 1843-1965 - USJ Press' },
+    { year: '2018', text: lang === 'fr' ? 'Henriette, la soeur inspiratrice - Presses universitaires de Rennes' : lang === 'ar' ? 'هنرييت، الأخت الملهمة - مطبعة جامعة رين' : 'Henriette, the Inspiring Sister - Presses universitaires de Rennes' },
   ]},
 ];
 ---
 
-<BaseLayout lang={lang} title={`${t('biography.title')} — Charbel Matta`}>
+<BaseLayout lang={lang} title={`${t('biography.title')} - Charbel Matta`}>
   <Header lang={lang} currentPath={currentPath} />
 
   <main id="main-content" class="pt-32 pb-20">

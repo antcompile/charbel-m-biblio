@@ -48,7 +48,7 @@ function formatDate(dateStr: string): string {
       <div class="border-b border-surface-variant my-4"></div>
       <p class="text-lg text-on-surface-variant">{venue}, {city}</p>
       <p class="label-caps text-outline mt-3">
-        {formatDate(startDate)}{endDate ? ` — ${formatDate(endDate)}` : ''}
+        {formatDate(startDate)}{endDate ? ` - ${formatDate(endDate)}` : ''}
       </p>
       {localizedDescription && (
         <p class="text-on-surface-variant mt-6 leading-relaxed">{localizedDescription}</p>

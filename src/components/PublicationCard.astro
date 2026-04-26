@@ -82,6 +82,6 @@ const localizedDescription = description ? getLocalizedContent(description, lang
 ) : (
   <div class="py-4 border-b border-outline-variant/20">
     <h4 class="font-medium text-primary">{localizedTitle}</h4>
-    <p class="text-on-surface-variant text-sm mt-1">{authors.join(', ')}{publisher ? ` — ${publisher}` : ''}, {year}</p>
+    <p class="text-on-surface-variant text-sm mt-1">{authors.join(', ')}{publisher ? ` - ${publisher}` : ''}, {year}</p>
   </div>
 )}
