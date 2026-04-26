@@ -28,7 +28,7 @@ const t = useTranslation(lang);
   data-transparent={transparent ? 'true' : 'false'}
 >
   <div class="flex justify-between items-center px-6 md:px-16 py-6 max-w-[1920px] mx-auto">
-    <a href={`/${lang}/`} class="flex-shrink-0">
+    <a href={`${import.meta.env.BASE_URL}${lang}/`} class="flex-shrink-0">
       <span
         class:list={[
           'font-serif text-2xl tracking-widest uppercase',
