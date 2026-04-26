@@ -3,8 +3,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://antcompile.github.io',
-  base: '/charbel-m-biblio',
+  site: 'https://charbelmatta.fr',
   output: 'static',
   integrations: [sitemap()],
   vite: {
