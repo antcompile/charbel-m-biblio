@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment
+.env
+.env.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Astro
+.astro/
+
+/real-photos/
+/logos/
+
+# Design reference screenshots (large files, not part of source)
+stitch_charbel_matta_digital_gallery/

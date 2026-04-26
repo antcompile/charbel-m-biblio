@@ -1,0 +1,157 @@
+---
+import { getCollection } from 'astro:content';
+import type { Lang } from '../../../i18n/languages';
+import { supportedLangs } from '../../../i18n/languages';
+import { useTranslation, getLocalizedContent } from '../../../i18n/utils';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+
+export function getStaticPaths() {
+  return supportedLangs.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslation(lang);
+const currentPath = Astro.url.pathname;
+
+const allExhibitions = await getCollection('exhibitions');
+const sorted = allExhibitions.sort((a, b) => new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime());
+
+const now = new Date();
+const currentUpcoming = sorted.filter(ex => ex.data.current || new Date(ex.data.endDate || ex.data.startDate) >= now);
+const past = sorted.filter(ex => !ex.data.current && new Date(ex.data.endDate || ex.data.startDate) < now);
+const latest = currentUpcoming.length > 0 ? currentUpcoming[0] : sorted[0];
+const remainingCurrent = currentUpcoming.filter(ex => ex !== latest);
+
+// Group past exhibitions by year
+const pastByYear: Record<string, typeof past> = {};
+past.forEach(ex => {
+  const year = new Date(ex.data.startDate).getFullYear().toString();
+  if (!pastByYear[year]) pastByYear[year] = [];
+  pastByYear[year].push(ex);
+});
+const sortedYears = Object.keys(pastByYear).sort((a, b) => Number(b) - Number(a));
+---
+
+<BaseLayout lang={lang} title={`${t('exhibitions.title')} — Charbel Matta`}>
+  <Header lang={lang} currentPath={currentPath} />
+
+  <main id="main-content" class="pt-32 pb-20">
+    <div class="max-w-[1440px] mx-auto px-8 md:px-16">
+      <!-- Header -->
+      <div class="flex flex-col items-center mb-8">
+        <h1 class="font-serif text-[48px] leading-[1.2] tracking-[-0.01em] text-primary mb-4">{t('exhibitions.title')}</h1>
+        <div class="w-12 h-px bg-tertiary-fixed-dim mb-6"></div>
+        <p class="text-[18px] leading-[1.6] text-on-surface-variant text-center max-w-2xl">
+          {lang === 'fr' ? 'Expositions personnelles et collectives en France et au Liban' : lang === 'ar' ? 'معارض فردية وجماعية في فرنسا ولبنان' : 'Solo and group exhibitions in France and Lebanon'}
+        </p>
+      </div>
+
+      <!-- Current & Upcoming -->
+      <section class="py-32 border-t border-outline-variant/30">
+        <div class="flex items-center gap-4 mb-12">
+          <span class="label-caps text-tertiary-fixed-dim tracking-widest">{t('exhibitions.current_upcoming')}</span>
+          <div class="flex-1 h-px bg-outline-variant/30"></div>
+        </div>
+
+        {latest && (
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+            <!-- Featured image -->
+            <div class="lg:col-span-7 group">
+              <div class="aspect-[16/10] overflow-hidden bg-surface-variant">
+                <div class="w-full h-full bg-surface-container-high flex items-center justify-center transition-transform duration-1000 group-hover:scale-105">
+                  <svg class="w-16 h-16 text-outline-variant" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z" /></svg>
+                </div>
+              </div>
+            </div>
+            <!-- Featured text -->
+            <div class="lg:col-span-5 flex flex-col justify-center border-l border-outline-variant/30 pl-8">
+              <span class="label-caps text-tertiary-fixed-dim tracking-widest mb-4">
+                {latest.data.type === 'solo' ? t('exhibitions.solo') : t('exhibitions.group')}
+              </span>
+              <h2 class="font-serif text-[32px] leading-[1.3] text-primary mb-4">{getLocalizedContent(latest.data.title, lang)}</h2>
+              <p class="text-[18px] leading-[1.6] text-on-surface-variant mb-2">{latest.data.venue}</p>
+              <p class="text-[16px] text-on-surface-variant mb-6">{latest.data.city}, {latest.data.country}</p>
+              <div class="flex items-center gap-3">
+                <span class="label-caps text-outline tracking-widest">
+                  {new Date(latest.data.startDate).toLocaleDateString(lang === 'fr' ? 'fr-FR' : lang === 'ar' ? 'ar-LB' : 'en-US', { month: 'long', year: 'numeric' })}
+                  {latest.data.endDate && ` — ${new Date(latest.data.endDate).toLocaleDateString(lang === 'fr' ? 'fr-FR' : lang === 'ar' ? 'ar-LB' : 'en-US', { month: 'long', year: 'numeric' })}`}
+                </span>
+              </div>
+              {latest.data.description && (
+                <p class="text-[16px] leading-[1.6] text-on-surface-variant mt-6">{getLocalizedContent(latest.data.description, lang)}</p>
+              )}
+            </div>
+          </div>
+        )}
+
+        {remainingCurrent.length > 0 && (
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+            {remainingCurrent.map((ex) => (
+              <div class="group border-b border-outline-variant/30 pb-6">
+                <span class="label-caps text-tertiary-fixed-dim tracking-widest mb-2 block">
+                  {ex.data.type === 'solo' ? t('exhibitions.solo') : t('exhibitions.group')}
+                </span>
+                <h3 class="font-serif text-[24px] leading-[1.3] text-primary mb-2">{getLocalizedContent(ex.data.title, lang)}</h3>
+                <p class="text-[16px] text-on-surface-variant">{ex.data.venue}, {ex.data.city}</p>
+                <p class="label-caps text-outline tracking-widest mt-3">
+                  {new Date(ex.data.startDate).toLocaleDateString(lang === 'fr' ? 'fr-FR' : lang === 'ar' ? 'ar-LB' : 'en-US', { month: 'long', year: 'numeric' })}
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <!-- Past Exhibitions -->
+      <section class="py-32 border-t border-outline-variant/30">
+        <div class="flex items-center gap-4 mb-16">
+          <span class="label-caps text-tertiary-fixed-dim tracking-widest">{t('exhibitions.past')}</span>
+          <div class="flex-1 h-px bg-outline-variant/30"></div>
+        </div>
+
+        {sortedYears.map((year) => (
+          <div class="mb-16">
+            <div class="flex items-start gap-8">
+              <!-- Year marker -->
+              <div class="w-20 flex-shrink-0 sticky top-32">
+                <span class="font-serif text-[32px] text-primary/30">{year}</span>
+              </div>
+              <!-- Exhibitions list -->
+              <div class="flex-1 space-y-8">
+                {pastByYear[year].map((ex) => (
+                  <div class="group flex flex-col md:flex-row md:items-start gap-6 border-b border-outline-variant/20 pb-8">
+                    <div class="md:w-48 flex-shrink-0">
+                      <div class="aspect-[3/2] overflow-hidden bg-surface-variant">
+                        <div class="w-full h-full bg-surface-container-high flex items-center justify-center transition-transform duration-700 group-hover:scale-105">
+                          <svg class="w-10 h-10 text-outline-variant" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z" /></svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex-1">
+                      <span class="label-caps text-outline tracking-widest mb-2 block">
+                        {ex.data.type === 'solo' ? t('exhibitions.solo') : t('exhibitions.group')}
+                      </span>
+                      <h3 class="font-serif text-[24px] leading-[1.3] text-primary mb-2">{getLocalizedContent(ex.data.title, lang)}</h3>
+                      <p class="text-[16px] text-on-surface-variant">{ex.data.venue}, {ex.data.city}</p>
+                      <p class="text-[14px] text-outline mt-2">
+                        {new Date(ex.data.startDate).toLocaleDateString(lang === 'fr' ? 'fr-FR' : lang === 'ar' ? 'ar-LB' : 'en-US', { month: 'long', day: 'numeric' })}
+                        {ex.data.endDate && ` — ${new Date(ex.data.endDate).toLocaleDateString(lang === 'fr' ? 'fr-FR' : lang === 'ar' ? 'ar-LB' : 'en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`}
+                      </p>
+                      {ex.data.description && (
+                        <p class="text-[14px] leading-[1.6] text-on-surface-variant mt-3">{getLocalizedContent(ex.data.description, lang)}</p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </section>
+    </div>
+  </main>
+
+  <Footer lang={lang} />
+</BaseLayout>

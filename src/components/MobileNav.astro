@@ -1,0 +1,106 @@
+---
+import type { Lang } from '../i18n/languages';
+import { useTranslation } from '../i18n/utils';
+import { mainNav } from '../data/navigation';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+interface Props {
+  lang: Lang;
+  currentPath: string;
+}
+
+const { lang, currentPath } = Astro.props;
+const t = useTranslation(lang);
+---
+
+<div id="mobile-nav" class="fixed inset-0 z-[200] pointer-events-none" aria-hidden="true">
+  <!-- Backdrop -->
+  <div id="mobile-nav-backdrop" class="absolute inset-0 bg-primary/40 opacity-0 transition-opacity duration-300"></div>
+
+  <!-- Drawer: slide from left -->
+  <nav
+    id="mobile-nav-drawer"
+    class="absolute top-0 left-0 h-full w-[320px] max-w-[85vw] bg-surface shadow-2xl -translate-x-full transition-transform duration-300 ease-out flex flex-col"
+    aria-label="Mobile navigation"
+  >
+    <!-- Header -->
+    <div class="flex items-center justify-between p-8 border-b border-surface-variant">
+      <div>
+        <span class="font-serif text-xl tracking-widest uppercase text-primary block">Charbel Matta</span>
+        <span class="caption text-outline mt-1 block">Fine Art Portfolio</span>
+      </div>
+      <button id="mobile-nav-close" class="p-2 text-outline hover:text-primary transition-colors" aria-label="Close navigation">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Nav links -->
+    <div class="flex-1 overflow-y-auto py-6">
+      <ul class="space-y-0.5">
+        {mainNav.map((item) => {
+          const href = item.href(lang);
+          const isActive = currentPath === href || (href !== `/${lang}/` && currentPath.startsWith(href.replace(/\/$/, '')));
+          return (
+            <li>
+              <a
+                href={href}
+                class:list={[
+                  'block py-3.5 px-8 font-serif text-lg transition-colors',
+                  isActive
+                    ? 'text-primary border-l-4 border-tertiary-fixed-dim bg-surface-container-low pl-7'
+                    : 'text-on-surface-variant hover:text-primary hover:bg-surface-container-low border-l-4 border-transparent',
+                ]}
+              >
+                {t(item.key)}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+
+    <!-- Language switcher at bottom -->
+    <div class="p-8 border-t border-surface-variant">
+      <LanguageSwitcher currentLang={lang} currentPath={currentPath} />
+    </div>
+  </nav>
+</div>
+
+<script>
+  const nav = document.getElementById('mobile-nav')!;
+  const backdrop = document.getElementById('mobile-nav-backdrop')!;
+  const drawer = document.getElementById('mobile-nav-drawer')!;
+  const closeBtn = document.getElementById('mobile-nav-close')!;
+  const openBtn = document.getElementById('mobile-nav-open')!;
+
+  function openNav() {
+    nav.classList.remove('pointer-events-none');
+    nav.setAttribute('aria-hidden', 'false');
+    backdrop.classList.remove('opacity-0');
+    backdrop.classList.add('opacity-100');
+    drawer.classList.remove('-translate-x-full');
+    drawer.classList.add('translate-x-0');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeNav() {
+    backdrop.classList.remove('opacity-100');
+    backdrop.classList.add('opacity-0');
+    drawer.classList.remove('translate-x-0');
+    drawer.classList.add('-translate-x-full');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      nav.classList.add('pointer-events-none');
+      nav.setAttribute('aria-hidden', 'true');
+    }, 300);
+  }
+
+  openBtn?.addEventListener('click', openNav);
+  closeBtn.addEventListener('click', closeNav);
+  backdrop.addEventListener('click', closeNav);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && nav.getAttribute('aria-hidden') === 'false') closeNav();
+  });
+</script>

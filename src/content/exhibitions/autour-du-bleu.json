@@ -1,0 +1,16 @@
+{
+  "title": { "fr": "Autour du Bleu", "en": "Around Blue", "ar": "حول الأزرق" },
+  "venue": "Crédit Municipal de Bordeaux",
+  "city": "Bordeaux",
+  "country": "France",
+  "startDate": "2024-12-02",
+  "endDate": "2024-12-09",
+  "type": "solo",
+  "current": false,
+  "description": {
+    "fr": "Un cycle d'œuvres centré sur la couleur bleue, où le Liban est « présent par la couleur, caché derrière le bleu, comme celui de la mer ou des pins parasols ».",
+    "en": "A cycle of works centered on the color blue, where Lebanon is 'present by the color, hidden behind the blue, like that of the sea or parasol pines.'",
+    "ar": "دورة من الأعمال تتمحور حول اللون الأزرق، حيث لبنان 'حاضر باللون، مختبئ خلف الأزرق، كأزرق البحر أو أشجار الصنوبر المظلية'."
+  },
+  "image": "/images/exhibitions/placeholder-blue.jpg"
+}

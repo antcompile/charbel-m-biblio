@@ -1,0 +1,16 @@
+{
+  "title": { "fr": "Abjadiya", "en": "Abjadiya", "ar": "أبجدية" },
+  "venue": "Office National du Tourisme du Liban",
+  "city": "Paris",
+  "country": "France",
+  "startDate": "2014-12-01",
+  "endDate": "2015-01-10",
+  "type": "solo",
+  "current": false,
+  "description": {
+    "fr": "Exposition organisée pour le cinquantenaire de l'Office du Tourisme du Liban en France. Trois toiles sélectionnées pour la Journée mondiale de la langue arabe à l'UNESCO.",
+    "en": "Exhibition organized for the 50th anniversary of the Lebanese Tourism Office in France. Three canvases selected for World Arabic Language Day at UNESCO.",
+    "ar": "معرض أقيم بمناسبة الذكرى الخمسين لمكتب السياحة اللبناني في فرنسا. ثلاث لوحات اختيرت ليوم اللغة العربية العالمي في اليونسكو."
+  },
+  "image": "/images/exhibitions/placeholder-abjadiya.jpg"
+}

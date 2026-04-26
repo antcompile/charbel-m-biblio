@@ -1,0 +1,206 @@
+---
+import { getCollection } from 'astro:content';
+import type { Lang } from '../../../i18n/languages';
+import { supportedLangs } from '../../../i18n/languages';
+import { useTranslation, getLocalizedContent } from '../../../i18n/utils';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+
+export function getStaticPaths() {
+  return supportedLangs.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslation(lang);
+const currentPath = Astro.url.pathname;
+
+const allArtworks = await getCollection('artworks');
+const artworks = allArtworks.sort((a, b) => a.data.order - b.data.order);
+
+const filters = [
+  { key: 'all', label: t('works.filter_all') },
+  { key: 'painting', label: t('works.filter_painting') },
+  { key: 'mosaic', label: t('works.filter_mosaic') },
+  { key: 'stained_glass', label: t('works.filter_stained_glass') },
+  { key: 'sculpture', label: t('works.filter_sculpture') },
+  { key: 'drawing', label: t('works.filter_drawing') },
+];
+
+const seriesNames: Record<string, { fr: string; en: string; ar: string }> = {
+  abjadiya: { fr: 'Abjadiya', en: 'Abjadiya', ar: 'أبجدية' },
+  blue: { fr: 'Autour du Bleu', en: 'Around Blue', ar: 'حول الأزرق' },
+  songs: { fr: 'Cantique des Cantiques', en: 'Song of Songs', ar: 'نشيد الأناشيد' },
+  commissions: { fr: 'Commandes Publiques', en: 'Public Commissions', ar: 'أعمال عامة' },
+  independent: { fr: 'Œuvres Indépendantes', en: 'Independent Works', ar: 'أعمال مستقلة' },
+};
+
+const series = [...new Set(artworks.map(a => a.data.series))];
+---
+
+<BaseLayout lang={lang} title={`${t('works.title')} — Charbel Matta`}>
+  <Header lang={lang} currentPath={currentPath} />
+
+  <main id="main-content" class="pt-32 pb-20">
+    <div class="max-w-[1440px] mx-auto px-8 md:px-16">
+      <!-- Display hero title -->
+      <div class="flex flex-col items-center mb-16">
+        <h1 class="font-serif text-[64px] leading-[1.1] tracking-[-0.02em] text-primary mb-6">{t('works.title')}</h1>
+        <div class="w-12 h-px bg-tertiary-fixed-dim"></div>
+      </div>
+
+      <!-- Filter pills -->
+      <div class="flex flex-wrap justify-center gap-4 mb-20" role="tablist" id="filter-tabs">
+        {filters.map((filter, i) => (
+          <button
+            role="tab"
+            data-filter={filter.key}
+            class:list={[
+              'label-caps tracking-widest pb-2 transition-colors duration-300',
+              i === 0 ? 'text-tertiary-container border-b border-tertiary-container' : 'text-outline border-b border-transparent hover:text-primary',
+            ]}
+            aria-selected={i === 0 ? 'true' : 'false'}
+          >
+            {filter.label}
+          </button>
+        ))}
+      </div>
+
+      <!-- Artworks by series -->
+      {series.map((seriesKey) => {
+        const seriesArtworks = artworks.filter(a => a.data.series === seriesKey);
+        const seriesLabel = seriesNames[seriesKey] ? getLocalizedContent(seriesNames[seriesKey], lang) : seriesKey;
+        return (
+          <section class="mb-24" data-series={seriesKey}>
+            <div class="flex items-center gap-4 mb-10">
+              <h2 class="font-serif text-[32px] leading-[1.3] text-primary">{seriesLabel}</h2>
+              <div class="flex-1 h-px bg-surface-variant"></div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {seriesArtworks.map((work, idx) => (
+                <div
+                  data-medium={work.data.medium}
+                  class:list={[
+                    'artwork-hover cursor-pointer',
+                    work.data.featured && idx === 0 && 'lg:col-span-2 lg:row-span-2',
+                  ]}
+                  data-lightbox-trigger
+                  data-index={artworks.indexOf(work)}
+                >
+                  <div class="p-4 bg-surface-container-low h-full">
+                    <div class="overflow-hidden bg-surface-container relative group">
+                      <div class:list={[
+                        'w-full bg-surface-container-high flex items-center justify-center',
+                        work.data.featured && idx === 0 ? 'aspect-square' : 'aspect-square',
+                      ]}>
+                        <svg class="w-12 h-12 text-outline-variant" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z" />
+                        </svg>
+                      </div>
+                      <!-- Hover overlay -->
+                      <div class="hover-content absolute inset-0 bg-primary/80 flex flex-col items-center justify-center text-center p-4">
+                        <span class="font-serif text-[18px] text-on-primary mb-1">{getLocalizedContent(work.data.title, lang)}</span>
+                        <span class="text-[14px] text-tertiary-fixed-dim italic">{work.data.year}</span>
+                        <span class="label-caps text-on-primary/60 mt-3 tracking-widest">{t('works.zoom_hint')}</span>
+                      </div>
+                    </div>
+                    <div class="pt-3 pb-1">
+                      <p class="text-[14px] text-primary font-medium">{getLocalizedContent(work.data.title, lang)}</p>
+                      <p class="text-[12px] text-on-surface-variant">{work.data.year}{work.data.dimensions ? ` — ${work.data.dimensions}` : ''}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+      })}
+    </div>
+  </main>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="fixed inset-0 z-[70] bg-primary/95 hidden items-center justify-center backdrop-blur-sm" aria-hidden="true">
+    <button id="lightbox-close" class="absolute top-8 right-8 text-on-primary/70 hover:text-on-primary p-2 z-10" aria-label={t('works.close')}>
+      <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>
+    </button>
+    <button id="lightbox-prev" class="absolute left-6 top-1/2 -translate-y-1/2 text-on-primary/70 hover:text-on-primary p-2 z-10" aria-label={t('works.previous')}>
+      <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /></svg>
+    </button>
+    <button id="lightbox-next" class="absolute right-6 top-1/2 -translate-y-1/2 text-on-primary/70 hover:text-on-primary p-2 z-10" aria-label={t('works.next')}>
+      <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
+    </button>
+    <div class="max-w-4xl w-full mx-auto px-8">
+      <div id="lightbox-image" class="aspect-square bg-surface-container-high flex items-center justify-center">
+        <svg class="w-16 h-16 text-outline-variant" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z" />
+        </svg>
+      </div>
+      <div id="lightbox-caption" class="text-center mt-6">
+        <p class="font-serif text-[18px] text-on-primary" id="lightbox-title"></p>
+        <p class="text-on-primary/60 text-[14px] mt-1" id="lightbox-meta"></p>
+      </div>
+    </div>
+  </div>
+
+  <Footer lang={lang} />
+</BaseLayout>
+
+<script>
+  // Filter functionality
+  const tabs = document.querySelectorAll('[data-filter]');
+  const artworkItems = document.querySelectorAll('[data-medium]');
+  const sections = document.querySelectorAll('[data-series]');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const filter = (tab as HTMLElement).dataset.filter;
+
+      tabs.forEach(t => {
+        t.classList.remove('text-tertiary-container', 'border-tertiary-container');
+        t.classList.add('text-outline', 'border-transparent');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('text-tertiary-container', 'border-tertiary-container');
+      tab.classList.remove('text-outline', 'border-transparent');
+      tab.setAttribute('aria-selected', 'true');
+
+      if (filter === 'all') {
+        artworkItems.forEach(item => (item as HTMLElement).style.display = '');
+        sections.forEach(s => (s as HTMLElement).style.display = '');
+      } else {
+        artworkItems.forEach(item => {
+          (item as HTMLElement).style.display = (item as HTMLElement).dataset.medium === filter ? '' : 'none';
+        });
+        sections.forEach(s => {
+          const visibleItems = s.querySelectorAll(`[data-medium="${filter}"]`);
+          const hasVisible = Array.from(visibleItems).some(el => (el as HTMLElement).style.display !== 'none');
+          (s as HTMLElement).style.display = hasVisible ? '' : 'none';
+        });
+      }
+    });
+  });
+
+  // Lightbox
+  const lightbox = document.getElementById('lightbox')!;
+  const triggers = document.querySelectorAll('[data-lightbox-trigger]');
+
+  triggers.forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      lightbox.classList.remove('hidden');
+      lightbox.classList.add('flex');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  document.getElementById('lightbox-close')?.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+
+  function closeLightbox() {
+    lightbox.classList.add('hidden');
+    lightbox.classList.remove('flex');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+</script>

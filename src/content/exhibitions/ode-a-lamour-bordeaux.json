@@ -1,0 +1,11 @@
+{
+  "title": { "fr": "Ode à l'amour", "en": "Ode to Love", "ar": "نشيد الحب" },
+  "venue": "Maison Saint Louis Beaulieu",
+  "city": "Bordeaux",
+  "country": "France",
+  "startDate": "2022-11-08",
+  "endDate": "2022-12-03",
+  "type": "group",
+  "current": false,
+  "image": "/images/exhibitions/placeholder-ode-bdx.jpg"
+}

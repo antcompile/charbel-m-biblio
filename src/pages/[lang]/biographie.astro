@@ -1,0 +1,163 @@
+---
+import type { Lang } from '../../i18n/languages';
+import { supportedLangs } from '../../i18n/languages';
+import { useTranslation } from '../../i18n/utils';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+export function getStaticPaths() {
+  return supportedLangs.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslation(lang);
+const currentPath = Astro.url.pathname;
+
+const cvSections = [
+  { heading: t('biography.education'), items: [
+    { year: '1973-', text: lang === 'fr' ? 'Arts plastiques, Histoire de l\'art, Beaux-Arts — France' : lang === 'ar' ? 'الفنون التشكيلية، تاريخ الفن، الفنون الجميلة — فرنسا' : 'Visual Arts, Art History, Fine Arts — France' },
+  ]},
+  { heading: t('biography.awards'), items: [
+    { year: '2021', text: lang === 'fr' ? 'Grand Prix Litteraire de l\'Oeuvre d\'Orient — Paris' : lang === 'ar' ? 'الجائزة الأدبية الكبرى لعمل الشرق — باريس' : 'Grand Literary Prize of the Oeuvre d\'Orient — Paris' },
+    { year: '2014', text: lang === 'fr' ? 'Selection UNESCO — Journee mondiale de la langue arabe' : lang === 'ar' ? 'اختيار اليونسكو — يوم اللغة العربية العالمي' : 'UNESCO Selection — World Arabic Language Day' },
+  ]},
+  { heading: t('biography.solo_exhibitions'), items: [
+    { year: '2024', text: lang === 'fr' ? 'Autour du Bleu — Credit Municipal de Bordeaux' : lang === 'ar' ? 'حول الأزرق — كريدي مونيسيبال دو بوردو' : 'Around Blue — Credit Municipal de Bordeaux' },
+    { year: '2014', text: lang === 'fr' ? 'Abjadiya — Office du Tourisme du Liban, Paris' : lang === 'ar' ? 'أبجدية — مكتب السياحة اللبناني، باريس' : 'Abjadiya — Lebanese Tourism Office, Paris' },
+  ]},
+  { heading: t('biography.group_exhibitions'), items: [
+    { year: '2022', text: lang === 'fr' ? 'Ode a l\'amour — Centre Sevres, Paris / Chateau de Gizeux / Maison Saint Louis, Bordeaux' : lang === 'ar' ? 'نشيد الحب — مركز سيفر، باريس / قصر جيزو / ميزون سان لويس، بوردو' : 'Ode to Love — Centre Sevres, Paris / Chateau de Gizeux / Maison Saint Louis, Bordeaux' },
+  ]},
+  { heading: t('biography.commissions'), items: [
+    { year: '2021', text: lang === 'fr' ? 'Mosaique baptistere (6 m2) — Notre-Dame des Anges, Bordeaux' : lang === 'ar' ? 'فسيفساء المعمودية (٦ م²) — نوتردام دي آنج، بوردو' : 'Baptistery mosaic (6 m2) — Notre-Dame des Anges, Bordeaux' },
+    { year: '', text: lang === 'fr' ? 'Vitraux — Notre Dame de l\'Ascension, Ghazir, Liban' : lang === 'ar' ? 'زجاج معشق — سيدة الصعود، غازير، لبنان' : 'Stained glass — Notre Dame de l\'Ascension, Ghazir, Lebanon' },
+    { year: '2011', text: lang === 'fr' ? 'Memorial Jesuite — Ghazir, Liban' : lang === 'ar' ? 'نصب يسوعي تذكاري — غازير، لبنان' : 'Jesuit Memorial — Ghazir, Lebanon' },
+    { year: '', text: lang === 'fr' ? 'Place et statue Ernest Renan — Ghazir, Liban' : lang === 'ar' ? 'ساحة وتمثال إرنست رينان — غازير، لبنان' : 'Ernest Renan Square and Statue — Ghazir, Lebanon' },
+  ]},
+  { heading: t('biography.publications_heading'), items: [
+    { year: '2019', text: lang === 'fr' ? 'La Mission Jesuite de Ghazir 1843-1965 — Presses de l\'USJ' : lang === 'ar' ? 'البعثة اليسوعية في غازير ١٨٤٣-١٩٦٥ — مطبعة جامعة القديس يوسف' : 'The Jesuit Mission of Ghazir 1843-1965 — USJ Press' },
+    { year: '2018', text: lang === 'fr' ? 'Henriette, la soeur inspiratrice — Presses universitaires de Rennes' : lang === 'ar' ? 'هنرييت، الأخت الملهمة — مطبعة جامعة رين' : 'Henriette, the Inspiring Sister — Presses universitaires de Rennes' },
+  ]},
+];
+---
+
+<BaseLayout lang={lang} title={`${t('biography.title')} — Charbel Matta`}>
+  <Header lang={lang} currentPath={currentPath} />
+
+  <main id="main-content" class="pt-32 pb-20">
+    <div class="max-w-[1440px] mx-auto px-8 md:px-16">
+      <!-- Header -->
+      <div class="flex flex-col items-center mb-8">
+        <h1 class="font-serif text-[48px] leading-[1.2] tracking-[-0.01em] text-primary mb-4">{t('biography.title')}</h1>
+        <div class="w-12 h-px bg-tertiary-fixed-dim"></div>
+      </div>
+
+      <!-- Two-column biography layout -->
+      <section class="py-32 border-t border-outline-variant/30">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+          <!-- Left: bio text with gold accent border -->
+          <div class="lg:col-span-7 space-y-8">
+            <div class="border-l-4 border-tertiary-fixed-dim pl-8">
+              <p class="text-[18px] leading-[1.8] text-on-surface-variant">{t('biography.bio_text_1')}</p>
+            </div>
+            <div class="border-l-4 border-tertiary-fixed-dim pl-8">
+              <p class="text-[18px] leading-[1.8] text-on-surface-variant">{t('biography.bio_text_2')}</p>
+            </div>
+            <div class="border-l-4 border-tertiary-fixed-dim/50 pl-8">
+              <p class="text-[18px] leading-[1.8] text-on-surface-variant">{t('biography.bio_text_3')}</p>
+            </div>
+            <div class="border-l-4 border-tertiary-fixed-dim/50 pl-8">
+              <p class="text-[18px] leading-[1.8] text-on-surface-variant">{t('biography.bio_text_4')}</p>
+            </div>
+          </div>
+
+          <!-- Right: portrait with matting + info card -->
+          <div class="lg:col-span-5 space-y-8">
+            <!-- Portrait with matting -->
+            <div class="bg-surface-container-low p-4">
+              <div class="aspect-[4/5] bg-surface-container flex items-center justify-center">
+                <svg class="w-16 h-16 text-outline-variant" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                </svg>
+              </div>
+            </div>
+
+            <!-- A Propos info card -->
+            <div class="bg-surface-container-low p-8">
+              <h3 class="label-caps text-tertiary-fixed-dim tracking-widest mb-6">
+                {lang === 'fr' ? 'A Propos' : lang === 'ar' ? 'حول' : 'About'}
+              </h3>
+              <div class="space-y-4">
+                <div class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-tertiary-fixed-dim flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0z" />
+                  </svg>
+                  <span class="text-[14px] text-on-surface-variant">{t('biography.born')}</span>
+                </div>
+                <div class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-tertiary-fixed-dim flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                  </svg>
+                  <span class="text-[14px] text-on-surface-variant">{t('biography.lives')}</span>
+                </div>
+                <div class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-tertiary-fixed-dim flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
+                  </svg>
+                  <span class="text-[14px] text-on-surface-variant">{t('biography.role')}</span>
+                </div>
+                <div class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-tertiary-fixed-dim flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                  </svg>
+                  <span class="text-[14px] text-on-surface-variant">{t('biography.member')}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CV Section -->
+      <section class="py-32 border-t border-outline-variant/30">
+        <div class="flex flex-col items-center mb-16">
+          <h2 class="font-serif text-[32px] leading-[1.3] text-primary mb-4">Curriculum Vitae</h2>
+          <div class="w-12 h-px bg-tertiary-fixed-dim"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-16">
+          {cvSections.map((section) => (
+            <div>
+              <div class="flex items-center gap-4 mb-6">
+                <span class="label-caps text-tertiary-fixed-dim tracking-widest">{section.heading}</span>
+                <div class="flex-1 h-px bg-outline-variant/30"></div>
+              </div>
+              <div class="space-y-4">
+                {section.items.map((item) => (
+                  <div class="flex gap-4">
+                    <span class="text-[14px] text-outline font-medium min-w-[4rem] flex-shrink-0">{item.year}</span>
+                    <span class="text-[16px] text-on-surface-variant">{item.text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- Download CV -->
+        <div class="flex justify-center mt-20">
+          <a href="#" class="inline-flex items-center justify-center gap-3 px-8 py-4 border border-primary-container text-primary-container label-caps hover:bg-primary-container hover:text-on-primary transition-colors duration-300 tracking-widest">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+            </svg>
+            {t('biography.download_cv')}
+          </a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <Footer lang={lang} />
+</BaseLayout>

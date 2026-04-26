@@ -1,0 +1,130 @@
+---
+import type { Lang } from '../i18n/languages';
+import { useTranslation } from '../i18n/utils';
+import { mainNav } from '../data/navigation';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import MobileNav from './MobileNav.astro';
+
+interface Props {
+  lang: Lang;
+  currentPath: string;
+  transparent?: boolean;
+}
+
+const { lang, currentPath, transparent = false } = Astro.props;
+const t = useTranslation(lang);
+---
+
+<div id="header-sentinel" class="absolute top-0 h-1 w-full"></div>
+
+<header
+  id="site-header"
+  class:list={[
+    'sticky top-0 w-full z-[100] transition-all duration-300 border-b',
+    transparent
+      ? 'bg-transparent border-transparent'
+      : 'bg-surface/95 backdrop-blur-md border-outline-variant/30',
+  ]}
+  data-transparent={transparent ? 'true' : 'false'}
+>
+  <div class="flex justify-between items-center px-6 md:px-16 py-6 max-w-[1920px] mx-auto">
+    <a href={`/${lang}/`} class="flex-shrink-0">
+      <span
+        class:list={[
+          'font-serif text-2xl tracking-widest uppercase',
+          transparent ? 'text-white' : 'text-primary',
+        ]}
+        id="header-logo-text"
+      >
+        Charbel Matta
+      </span>
+    </a>
+
+    <div class="hidden lg:flex items-center gap-8">
+      {mainNav.filter(item => item.key !== 'nav.home').map((item) => {
+        const href = item.href(lang);
+        const isActive = currentPath === href || currentPath.startsWith(href.replace(/\/$/, ''));
+        return (
+          <a
+            href={href}
+            class:list={[
+              'label-caps pb-1 transition-colors duration-300 border-b-2',
+              isActive
+                ? (transparent ? 'text-white border-tertiary-fixed-dim' : 'text-primary border-tertiary-fixed-dim')
+                : (transparent ? 'text-white/70 border-transparent hover:text-white' : 'text-outline border-transparent hover:text-primary'),
+            ]}
+            data-nav-link
+          >
+            {t(item.key)}
+          </a>
+        );
+      })}
+    </div>
+
+    <div class="flex items-center gap-4">
+      <div class:list={['hidden md:block', transparent ? '[&_a]:text-white/70 [&_a]:hover:text-white [&_span]:text-white/30' : '']}>
+        <LanguageSwitcher currentLang={lang} currentPath={currentPath} />
+      </div>
+
+      <button
+        id="mobile-nav-open"
+        class="lg:hidden p-2"
+        aria-label="Open navigation menu"
+      >
+        <svg
+          class:list={['w-6 h-6', transparent ? 'text-white' : 'text-primary']}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="1.5"
+          id="hamburger-icon"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<MobileNav lang={lang} currentPath={currentPath} />
+
+<script>
+  (function () {
+    const header = document.getElementById('site-header');
+    const logoText = document.getElementById('header-logo-text');
+    const hamburger = document.getElementById('hamburger-icon');
+    if (!header) return;
+
+    const isTransparent = header.dataset.transparent === 'true';
+    if (!isTransparent) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const scrolled = !entry.isIntersecting;
+        if (scrolled) {
+          header.classList.remove('bg-transparent', 'border-transparent');
+          header.classList.add('bg-surface/95', 'backdrop-blur-md', 'border-outline-variant/30');
+          header.querySelectorAll('[data-nav-link]').forEach((el) => {
+            el.classList.remove('text-white/70', 'text-white');
+            el.classList.add('text-outline');
+          });
+          if (logoText) { logoText.classList.remove('text-white'); logoText.classList.add('text-primary'); }
+          if (hamburger) { hamburger.classList.remove('text-white'); hamburger.classList.add('text-primary'); }
+        } else {
+          header.classList.add('bg-transparent', 'border-transparent');
+          header.classList.remove('bg-surface/95', 'backdrop-blur-md', 'border-outline-variant/30');
+          header.querySelectorAll('[data-nav-link]').forEach((el) => {
+            el.classList.add('text-white/70');
+            el.classList.remove('text-outline');
+          });
+          if (logoText) { logoText.classList.add('text-white'); logoText.classList.remove('text-primary'); }
+          if (hamburger) { hamburger.classList.add('text-white'); hamburger.classList.remove('text-primary'); }
+        }
+      },
+      { threshold: 0 }
+    );
+
+    const sentinel = document.getElementById('header-sentinel');
+    if (sentinel) observer.observe(sentinel);
+  })();
+</script>

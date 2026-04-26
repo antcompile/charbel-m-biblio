@@ -1,0 +1,20 @@
+{
+  "title": {
+    "fr": "La Mission Jésuite de Ghazir 1843-1965 — Le retour de la Compagnie de Jésus au Liban",
+    "en": "The Jesuit Mission of Ghazir 1843-1965 — The Return of the Society of Jesus to Lebanon",
+    "ar": "البعثة اليسوعية في غازير ١٨٤٣-١٩٦٥ — عودة الرهبنة اليسوعية إلى لبنان"
+  },
+  "type": "book",
+  "authors": ["Khalil Karam", "Charbel Matta"],
+  "publisher": "Presses de l'Université Saint-Joseph",
+  "year": 2019,
+  "isbn": "6148019531",
+  "description": {
+    "fr": "Ouvrage retraçant 122 ans de présence jésuite à Ghazir, berceau de l'Université Saint-Joseph de Beyrouth. Présenté à la Sorbonne en janvier 2020.",
+    "en": "A work chronicling 122 years of Jesuit presence in Ghazir, the birthplace of Saint-Joseph University of Beirut. Presented at the Sorbonne in January 2020.",
+    "ar": "كتاب يؤرخ ١٢٢ عاماً من الوجود اليسوعي في غازير، مهد جامعة القديس يوسف في بيروت. قُدّم في السوربون في يناير ٢٠٢٠."
+  },
+  "image": "/images/publications/placeholder-book.jpg",
+  "award": "Grand Prix Littéraire de l'Œuvre d'Orient 2021",
+  "featured": true
+}

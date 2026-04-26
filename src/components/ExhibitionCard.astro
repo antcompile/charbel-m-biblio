@@ -1,0 +1,64 @@
+---
+import type { Lang } from '../i18n/languages';
+import { getLocalizedContent, useTranslation } from '../i18n/utils';
+
+interface Props {
+  title: { fr: string; en: string; ar: string };
+  venue: string;
+  city: string;
+  startDate: string;
+  endDate?: string;
+  type: 'solo' | 'group';
+  description?: { fr: string; en: string; ar: string };
+  image?: string;
+  featured?: boolean;
+  lang: Lang;
+}
+
+const { title, venue, city, startDate, endDate, type, description, featured = false, lang } = Astro.props;
+const t = useTranslation(lang);
+const localizedTitle = getLocalizedContent(title, lang);
+const localizedDescription = description ? getLocalizedContent(description, lang) : '';
+const year = new Date(startDate).getFullYear();
+const typeLabel = type === 'solo' ? t('exhibitions.solo') : t('exhibitions.group');
+
+function formatDate(dateStr: string): string {
+  return new Date(dateStr).toLocaleDateString(lang === 'ar' ? 'ar-LB' : lang === 'fr' ? 'fr-FR' : 'en-US', {
+    month: 'long',
+    year: 'numeric',
+  });
+}
+---
+
+{featured ? (
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+    <!-- Image -->
+    <div class="md:col-span-7">
+      <div class="aspect-[16/9] bg-surface-container-high flex items-center justify-center overflow-hidden">
+        <svg class="w-16 h-16 text-outline-variant/40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Metadata -->
+    <div class="md:col-span-5 flex flex-col justify-center">
+      <span class="label-caps text-tertiary-fixed-dim">{typeLabel}</span>
+      <h3 class="font-serif text-2xl md:text-[32px] text-primary font-normal mt-3 leading-tight">{localizedTitle}</h3>
+      <div class="border-b border-surface-variant my-4"></div>
+      <p class="text-lg text-on-surface-variant">{venue}, {city}</p>
+      <p class="label-caps text-outline mt-3">
+        {formatDate(startDate)}{endDate ? ` — ${formatDate(endDate)}` : ''}
+      </p>
+      {localizedDescription && (
+        <p class="text-on-surface-variant mt-6 leading-relaxed">{localizedDescription}</p>
+      )}
+    </div>
+  </div>
+) : (
+  <div class="py-4 border-b border-outline-variant/20 flex items-baseline gap-6 group">
+    <span class="text-outline text-sm font-medium min-w-[3.5rem] tabular-nums">{year}</span>
+    <h4 class="font-medium text-primary group-hover:text-secondary transition-colors flex-1">{localizedTitle}</h4>
+    <span class="text-on-surface-variant text-sm hidden sm:inline">{venue} &middot; {typeLabel}</span>
+  </div>
+)}

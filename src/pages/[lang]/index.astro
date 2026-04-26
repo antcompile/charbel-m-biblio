@@ -1,0 +1,169 @@
+---
+import { getCollection } from 'astro:content';
+import type { Lang } from '../../i18n/languages';
+import { supportedLangs } from '../../i18n/languages';
+import { useTranslation, getLocalizedContent } from '../../i18n/utils';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+export function getStaticPaths() {
+  return supportedLangs.map((lang) => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslation(lang);
+const currentPath = Astro.url.pathname;
+
+const allArtworks = await getCollection('artworks');
+const featuredWorks = allArtworks.filter(a => a.data.featured).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
+
+const allExhibitions = await getCollection('exhibitions');
+const sortedExhibitions = allExhibitions.sort((a, b) => new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime());
+const latestExhibition = sortedExhibitions[0];
+const pastExhibitions = sortedExhibitions.slice(1, 3);
+
+const allPublications = await getCollection('publications');
+const featuredPublication = allPublications.find(p => p.data.featured);
+---
+
+<BaseLayout lang={lang} title={`Charbel Matta — ${t('hero.tagline')}`}>
+  <Header lang={lang} currentPath={currentPath} transparent={true} />
+
+  <main id="main-content">
+    <!-- Hero: full-screen with image bg, gradient overlay, centered text -->
+    <section class="relative h-screen min-h-[800px] w-full flex items-center justify-center overflow-hidden">
+      <div class="absolute inset-0 z-0">
+        <div class="w-full h-full bg-primary-container"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-background/40 via-background/20 to-background"></div>
+      </div>
+      <div class="relative z-10 text-center flex flex-col items-center">
+        <h1 class="font-serif text-[64px] leading-[1.1] tracking-[-0.02em] text-primary-container mb-6">Charbel Matta</h1>
+        <p class="label-caps text-tertiary-container tracking-[0.2em] border-b border-tertiary-fixed-dim pb-2">{t('hero.tagline')}</p>
+      </div>
+    </section>
+
+    <div class="max-w-[1440px] mx-auto px-8 md:px-16 w-full">
+      <!-- Oeuvres Recentes -->
+      <section class="py-32">
+        <div class="flex flex-col items-center mb-16">
+          <h2 class="font-serif text-[32px] leading-[1.3] text-primary mb-4">{t('home.recent_works')}</h2>
+          <div class="w-12 h-px bg-tertiary-fixed-dim"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {featuredWorks.map((work, i) => (
+            <a href={`/${lang}/oeuvres/`} class:list={['group relative aspect-square overflow-hidden bg-surface-variant cursor-pointer', i === 1 && 'md:mt-12']}>
+              <div class="absolute inset-0 bg-surface-container-high flex items-center justify-center">
+                <svg class="w-16 h-16 text-outline-variant" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z" />
+                </svg>
+              </div>
+              <div class="absolute inset-0 bg-primary-container/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col items-center justify-center text-center p-6">
+                <span class="font-serif text-[32px] leading-[1.3] text-on-primary mb-2">{getLocalizedContent(work.data.title, lang)}</span>
+                <span class="text-[14px] text-tertiary-fixed-dim italic">{work.data.year}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+        <div class="flex justify-center mt-16">
+          <a href={`/${lang}/oeuvres/`} class="inline-flex items-center justify-center px-8 py-4 border border-primary-container text-primary-container label-caps hover:bg-primary-container hover:text-on-primary transition-colors duration-300 tracking-widest">
+            {t('home.view_all_works')}
+          </a>
+        </div>
+      </section>
+
+      <!-- Artist Intro -->
+      <section class="py-32 border-t border-outline-variant/30">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+          <div class="md:col-span-5 aspect-[4/5] bg-surface-container-low p-4">
+            <div class="w-full h-full bg-surface-container flex items-center justify-center">
+              <svg class="w-16 h-16 text-outline-variant" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+              </svg>
+            </div>
+          </div>
+          <div class="md:col-span-6 md:col-start-7 flex flex-col justify-center">
+            <h2 class="font-serif text-[48px] leading-[1.2] tracking-[-0.01em] text-primary mb-8">{lang === 'fr' ? "L'Art de la Matiere et du Temps" : lang === 'ar' ? 'فن المادة والزمن' : 'The Art of Material and Time'}</h2>
+            <p class="text-[18px] leading-[1.6] text-on-surface-variant mb-6">{t('home.about_intro')}</p>
+            <div>
+              <a href={`/${lang}/biographie/`} class="inline-flex items-center text-primary-container label-caps tracking-widest group">
+                <span class="border-b border-primary-container pb-1 group-hover:border-tertiary-fixed-dim group-hover:text-tertiary transition-colors duration-300">{t('home.discover')}</span>
+                <svg class="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Expositions -->
+      <section class="py-32 border-t border-outline-variant/30">
+        <div class="flex flex-col items-start mb-12">
+          <span class="label-caps text-tertiary-fixed-dim tracking-widest mb-2">{lang === 'fr' ? 'Agenda' : lang === 'ar' ? 'الأجندة' : 'Agenda'}</span>
+          <h2 class="font-serif text-[32px] leading-[1.3] text-primary">{t('home.exhibitions_heading')}</h2>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {latestExhibition && (
+            <div class="lg:col-span-8 group cursor-pointer">
+              <div class="aspect-[16/9] overflow-hidden bg-surface-variant mb-6">
+                <div class="w-full h-full bg-surface-container-high flex items-center justify-center transition-transform duration-1000 group-hover:scale-105">
+                  <svg class="w-16 h-16 text-outline-variant" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z" /></svg>
+                </div>
+              </div>
+              <div class="flex flex-col md:flex-row md:items-baseline justify-between border-b border-outline-variant/30 pb-6">
+                <div>
+                  <h3 class="font-serif text-[32px] leading-[1.3] text-primary mb-2">{getLocalizedContent(latestExhibition.data.title, lang)}</h3>
+                  <p class="text-[18px] leading-[1.6] text-on-surface-variant">{latestExhibition.data.venue}, {latestExhibition.data.city}</p>
+                </div>
+                <div class="mt-4 md:mt-0 md:text-right">
+                  <p class="label-caps text-tertiary-container tracking-widest">{new Date(latestExhibition.data.startDate).toLocaleDateString(lang === 'fr' ? 'fr-FR' : lang === 'ar' ? 'ar-LB' : 'en-US', { month: 'short', year: 'numeric' })}</p>
+                </div>
+              </div>
+            </div>
+          )}
+          <div class="lg:col-span-4 flex flex-col gap-12">
+            {pastExhibitions.map((ex) => (
+              <div class="group cursor-pointer">
+                <div class="aspect-[3/2] overflow-hidden bg-surface-variant mb-4">
+                  <div class="w-full h-full bg-surface-container-high flex items-center justify-center transition-transform duration-1000 group-hover:scale-105">
+                    <svg class="w-12 h-12 text-outline-variant" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0 0 22.5 18.75V5.25A2.25 2.25 0 0 0 20.25 3H3.75A2.25 2.25 0 0 0 1.5 5.25v13.5A2.25 2.25 0 0 0 3.75 21Z" /></svg>
+                  </div>
+                </div>
+                <h4 class="text-[18px] leading-[1.6] text-primary mb-1">{getLocalizedContent(ex.data.title, lang)}</h4>
+                <p class="text-[14px] text-on-surface-variant mb-2">{ex.data.venue}, {ex.data.city}</p>
+                <p class="label-caps text-outline tracking-widest">{new Date(ex.data.startDate).toLocaleDateString(lang === 'fr' ? 'fr-FR' : lang === 'ar' ? 'ar-LB' : 'en-US', { month: 'long', year: 'numeric' })}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- Publications -->
+      {featuredPublication && (
+        <section class="py-32 border-t border-outline-variant/30 mb-20">
+          <div class="bg-surface-container-low p-12 md:p-20 relative overflow-hidden">
+            <div class="absolute -right-20 -top-20 w-64 h-64 rounded-full bg-surface-container-high blur-3xl opacity-50 pointer-events-none"></div>
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center relative z-10">
+              <div class="md:col-span-5">
+                <div class="aspect-[3/4] bg-surface shadow-2xl p-4 transform -rotate-2 hover:rotate-0 transition-transform duration-500">
+                  <div class="w-full h-full bg-surface-container-high flex items-center justify-center">
+                    <svg class="w-16 h-16 text-outline-variant" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" /></svg>
+                  </div>
+                </div>
+              </div>
+              <div class="md:col-span-7 md:pl-8">
+                <span class="inline-block px-3 py-1 border border-tertiary-fixed-dim text-tertiary label-caps tracking-widest bg-surface mb-6">{t('home.grand_prix')}</span>
+                <h2 class="font-serif text-[48px] leading-[1.2] tracking-[-0.01em] text-primary mb-4">{getLocalizedContent(featuredPublication.data.title, lang)}</h2>
+                <p class="text-[18px] leading-[1.6] text-on-surface-variant mb-6">{featuredPublication.data.description ? getLocalizedContent(featuredPublication.data.description, lang) : ''}</p>
+                <a href={`/${lang}/publications/`} class="inline-flex items-center justify-center px-8 py-4 bg-primary-container text-on-primary label-caps hover:bg-primary transition-colors duration-300 tracking-widest">
+                  {t('home.view_publications')}
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+    </div>
+  </main>
+
+  <Footer lang={lang} />
+</BaseLayout>

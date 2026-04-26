@@ -1,0 +1,122 @@
+{
+  "nav": {
+    "home": "Home",
+    "works": "Works",
+    "exhibitions": "Exhibitions",
+    "publications": "Publications",
+    "press": "Press",
+    "biography": "Biography",
+    "contact": "Contact"
+  },
+  "hero": {
+    "tagline": "Painter · Mosaicist · Bordeaux",
+    "cta": "Discover the works"
+  },
+  "home": {
+    "recent_works": "Recent Works",
+    "view_all_works": "View all works",
+    "about_intro": "Born in 1952 in Ghazir, Lebanon, Charbel Matta is a visual artist and professor at the École Supérieure des Beaux-Arts de Bordeaux. His work explores Lebanese identity through painting, mosaic, and stained glass.",
+    "discover": "Discover",
+    "exhibitions_heading": "Exhibitions",
+    "current_exhibition": "Current exhibition",
+    "learn_more": "Learn more",
+    "publications_heading": "Publications",
+    "view_publications": "View publications",
+    "grand_prix": "Grand Literary Prize of the Œuvre d'Orient 2021"
+  },
+  "works": {
+    "title": "Works",
+    "filter_all": "All",
+    "filter_painting": "Painting",
+    "filter_mosaic": "Mosaic",
+    "filter_stained_glass": "Stained Glass",
+    "filter_sculpture": "Sculpture",
+    "filter_drawing": "Drawing",
+    "series_abjadiya": "Abjadiya",
+    "series_blue": "Around Blue",
+    "series_songs": "Song of Songs",
+    "series_commissions": "Public Commissions",
+    "zoom_hint": "Click to enlarge",
+    "close": "Close",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "exhibitions": {
+    "title": "Exhibitions",
+    "current_upcoming": "Current & Upcoming",
+    "past": "Past",
+    "more_details": "More details",
+    "solo": "Solo exhibition",
+    "group": "Group exhibition",
+    "at": "at",
+    "installation_views": "Installation views"
+  },
+  "publications": {
+    "title": "Publications",
+    "featured": "Featured Publication",
+    "authors": "Authors",
+    "publisher": "Publisher",
+    "year": "Year",
+    "isbn": "ISBN",
+    "buy": "Order",
+    "articles_chapters": "Articles & Chapters",
+    "postcard_collection": "Postcard Collection",
+    "postcard_description": "A collection of over 10,000 postcards depicting Lebanon, gathered over more than 38 years. Organized by publisher, series, and year, these cards serve as identity testimonies of Lebanese heritage."
+  },
+  "press": {
+    "title": "Press",
+    "read_article": "Read article",
+    "watch_video": "Watch video",
+    "videos": "Videos"
+  },
+  "biography": {
+    "title": "Biography",
+    "born": "Born in 1952 in Ghazir, Lebanon",
+    "lives": "Lives and works in Bordeaux, France",
+    "role": "Professor, École des Beaux-Arts de Bordeaux",
+    "member": "Member, Ensemble Angelico",
+    "download_cv": "Download CV (PDF)",
+    "education": "Education",
+    "solo_exhibitions": "Solo Exhibitions",
+    "group_exhibitions": "Group Exhibitions",
+    "awards": "Awards & Distinctions",
+    "commissions": "Public Commissions",
+    "publications_heading": "Publications",
+    "bio_text_1": "Born in 1952 in Ghazir, Lebanon, Charbel Matta left his homeland in 1973 to pursue his studies in France. Trained in visual arts, art history, and fine arts, he settled in Bordeaux where he became a professor at the École Supérieure des Beaux-Arts.",
+    "bio_text_2": "His work, driven by a lyrical abstraction with figurative undertones, explores Lebanese identity through painting, mosaic, stained glass, and sculpture. Writing, color, and light are at the heart of his artistic practice.",
+    "bio_text_3": "A member of the Ensemble Angelico collective, he regularly participates in exhibitions in France and Lebanon. His cultural commitment is also expressed through the publication of a major work on the Jesuit mission in Ghazir, awarded the Grand Literary Prize of the Œuvre d'Orient in 2021.",
+    "bio_text_4": "A passionate collector, he has gathered over 10,000 postcards depicting Lebanon, constituting a unique visual heritage. His ambition is to create a foundation to pass on the Lebanese historical narrative to younger generations."
+  },
+  "contact": {
+    "title": "Contact",
+    "name": "Name",
+    "email": "Email",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send",
+    "subject_general": "General inquiry",
+    "subject_exhibition": "Exhibition proposal",
+    "subject_press": "Press inquiry",
+    "subject_acquisition": "Acquisition",
+    "success": "Your message has been sent successfully.",
+    "professional_note": "For professional inquiries, please provide context about your request.",
+    "location": "Bordeaux, France",
+    "affiliation": "Member of the Ensemble Angelico collective"
+  },
+  "footer": {
+    "navigation_heading": "Navigation",
+    "contact_heading": "Contact",
+    "social_heading": "Follow Me",
+    "newsletter_heading": "Newsletter",
+    "newsletter_placeholder": "Your email",
+    "newsletter_subscribe": "Subscribe",
+    "copyright": "© 2026 Charbel Matta. All rights reserved.",
+    "legal_link": "Legal notice",
+    "sitemap_link": "Sitemap"
+  },
+  "common": {
+    "skip_to_content": "Skip to content",
+    "close_menu": "Close menu",
+    "open_menu": "Open menu"
+  }
+}

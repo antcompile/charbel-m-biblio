@@ -1,0 +1,67 @@
+---
+import { type Lang, languages } from '../i18n/languages';
+import '../styles/global.css';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+}
+
+const { lang, title = 'Charbel Matta' } = Astro.props;
+const dir = languages[lang].dir;
+const isRTL = dir === 'rtl';
+---
+
+<!DOCTYPE html>
+<html lang={lang} dir={dir} class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+
+  <!-- Google Fonts: Noto Serif -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Self-hosted fonts -->
+  <link rel="preload" href="/fonts/Manrope-Latin.woff2" as="font" type="font/woff2" crossorigin />
+  {isRTL && (
+    <>
+      <link rel="preload" href="/fonts/NotoSansArabic-Regular.woff2" as="font" type="font/woff2" crossorigin />
+      <link rel="preload" href="/fonts/NotoNaskhArabic-Bold.woff2" as="font" type="font/woff2" crossorigin />
+    </>
+  )}
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="theme-color" content="#002045" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Charbel Matta" />
+
+  <slot name="head" />
+</head>
+<body class="bg-background text-on-background antialiased">
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <a href="#main-content" class="skip-link">
+    {lang === 'ar' ? 'انتقل إلى المحتوى' : lang === 'fr' ? 'Aller au contenu' : 'Skip to content'}
+  </a>
+
+  <slot />
+
+  <script is:inline>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+
+  <script is:inline define:vars={{ lang }}>
+    localStorage.setItem('charbel-lang', lang);
+  </script>
+</body>
+</html>

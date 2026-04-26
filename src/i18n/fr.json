@@ -1,0 +1,122 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "works": "Œuvres",
+    "exhibitions": "Expositions",
+    "publications": "Publications",
+    "press": "Presse",
+    "biography": "Biographie",
+    "contact": "Contact"
+  },
+  "hero": {
+    "tagline": "Peintre · Mosaïste · Bordeaux",
+    "cta": "Découvrir les œuvres"
+  },
+  "home": {
+    "recent_works": "Œuvres Récentes",
+    "view_all_works": "Voir toutes les œuvres",
+    "about_intro": "Né en 1952 à Ghazir, au Liban, Charbel Matta est un artiste plasticien et professeur à l'École Supérieure des Beaux-Arts de Bordeaux. Son œuvre explore l'identité libanaise à travers la peinture, la mosaïque et le vitrail.",
+    "discover": "Découvrir",
+    "exhibitions_heading": "Expositions",
+    "current_exhibition": "Exposition en cours",
+    "learn_more": "En savoir plus",
+    "publications_heading": "Publications",
+    "view_publications": "Voir les publications",
+    "grand_prix": "Grand Prix Littéraire de l'Œuvre d'Orient 2021"
+  },
+  "works": {
+    "title": "Œuvres",
+    "filter_all": "Tout",
+    "filter_painting": "Peinture",
+    "filter_mosaic": "Mosaïque",
+    "filter_stained_glass": "Vitrail",
+    "filter_sculpture": "Sculpture",
+    "filter_drawing": "Dessin",
+    "series_abjadiya": "Abjadiya",
+    "series_blue": "Autour du Bleu",
+    "series_songs": "Cantique des Cantiques",
+    "series_commissions": "Commandes Publiques",
+    "zoom_hint": "Cliquez pour agrandir",
+    "close": "Fermer",
+    "previous": "Précédent",
+    "next": "Suivant"
+  },
+  "exhibitions": {
+    "title": "Expositions",
+    "current_upcoming": "Actuelles et à venir",
+    "past": "Passées",
+    "more_details": "Plus de détails",
+    "solo": "Exposition personnelle",
+    "group": "Exposition collective",
+    "at": "à",
+    "installation_views": "Vues d'installation"
+  },
+  "publications": {
+    "title": "Publications",
+    "featured": "Publication à la une",
+    "authors": "Auteurs",
+    "publisher": "Éditeur",
+    "year": "Année",
+    "isbn": "ISBN",
+    "buy": "Commander",
+    "articles_chapters": "Articles et Chapitres",
+    "postcard_collection": "Collection de Cartes Postales",
+    "postcard_description": "Une collection de plus de 10 000 cartes postales représentant le Liban, rassemblées sur plus de 38 ans. Classées par éditeur, série et année, ces cartes constituent des témoignages identitaires du patrimoine libanais."
+  },
+  "press": {
+    "title": "Presse",
+    "read_article": "Lire l'article",
+    "watch_video": "Voir la vidéo",
+    "videos": "Vidéos"
+  },
+  "biography": {
+    "title": "Biographie",
+    "born": "Né en 1952 à Ghazir, Liban",
+    "lives": "Vit et travaille à Bordeaux, France",
+    "role": "Professeur, École des Beaux-Arts de Bordeaux",
+    "member": "Membre, Ensemble Angelico",
+    "download_cv": "Télécharger le CV (PDF)",
+    "education": "Formation",
+    "solo_exhibitions": "Expositions Personnelles",
+    "group_exhibitions": "Expositions Collectives",
+    "awards": "Prix et Distinctions",
+    "commissions": "Commandes Publiques",
+    "publications_heading": "Publications",
+    "bio_text_1": "Né en 1952 à Ghazir, au Liban, Charbel Matta quitte son pays natal en 1973 pour poursuivre ses études en France. Formé aux arts plastiques, à l'histoire de l'art et aux Beaux-Arts, il s'installe à Bordeaux où il deviendra professeur à l'École Supérieure des Beaux-Arts.",
+    "bio_text_2": "Son œuvre, portée par une abstraction lyrique aux suggestions figuratives, explore l'identité libanaise à travers la peinture, la mosaïque, le vitrail et la sculpture. Écriture, couleur et lumière sont au cœur de sa pratique artistique.",
+    "bio_text_3": "Membre du collectif Ensemble Angelico, il participe régulièrement à des expositions en France et au Liban. Son engagement culturel se manifeste également par la publication d'un ouvrage majeur sur la mission jésuite de Ghazir, couronné par le Grand Prix Littéraire de l'Œuvre d'Orient en 2021.",
+    "bio_text_4": "Collectionneur passionné, il a rassemblé plus de 10 000 cartes postales représentant le Liban, constituant un patrimoine visuel unique. Son ambition est de créer une fondation pour transmettre le récit historique libanais aux jeunes générations."
+  },
+  "contact": {
+    "title": "Contact",
+    "name": "Nom",
+    "email": "Email",
+    "subject": "Objet",
+    "message": "Message",
+    "send": "Envoyer",
+    "subject_general": "Renseignement général",
+    "subject_exhibition": "Proposition d'exposition",
+    "subject_press": "Demande presse",
+    "subject_acquisition": "Acquisition",
+    "success": "Votre message a été envoyé avec succès.",
+    "professional_note": "Pour les demandes professionnelles, merci de préciser le contexte de votre démarche.",
+    "location": "Bordeaux, France",
+    "affiliation": "Membre du collectif Ensemble Angelico"
+  },
+  "footer": {
+    "navigation_heading": "Navigation",
+    "contact_heading": "Contact",
+    "social_heading": "Suivez-moi",
+    "newsletter_heading": "Newsletter",
+    "newsletter_placeholder": "Votre email",
+    "newsletter_subscribe": "S'inscrire",
+    "copyright": "© 2026 Charbel Matta. Tous droits réservés.",
+    "legal_link": "Mentions légales",
+    "sitemap_link": "Plan du site"
+  },
+  "common": {
+    "skip_to_content": "Aller au contenu",
+    "close_menu": "Fermer le menu",
+    "open_menu": "Ouvrir le menu"
+  }
+}

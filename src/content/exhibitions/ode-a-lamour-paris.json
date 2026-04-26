@@ -1,0 +1,16 @@
+{
+  "title": { "fr": "Ode à l'amour", "en": "Ode to Love", "ar": "نشيد الحب" },
+  "venue": "Centre Sèvres",
+  "city": "Paris",
+  "country": "France",
+  "startDate": "2022-05-19",
+  "endDate": "2022-06-11",
+  "type": "group",
+  "current": false,
+  "description": {
+    "fr": "Exposition collective du collectif Ensemble Angelico, interprétation du Cantique des Cantiques par sept artistes.",
+    "en": "Group exhibition by the Ensemble Angelico collective, interpreting the Song of Songs through seven artists.",
+    "ar": "معرض جماعي لمجموعة أنسامبل أنجيليكو، تفسير نشيد الأناشيد من قبل سبعة فنانين."
+  },
+  "image": "/images/exhibitions/placeholder-ode.jpg"
+}
